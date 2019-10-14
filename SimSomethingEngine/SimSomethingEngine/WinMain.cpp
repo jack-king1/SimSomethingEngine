@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include "App.h"
 
 int CALLBACK WinMain(
 	HINSTANCE hInstance, 
@@ -6,30 +7,39 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine, 
 	int nCmdShow)
 {
-	const auto pClassName = "SimSomething";
-	//Register Windows Class
-	WNDCLASSEX wc = { 0 };
-	wc.cbSize = sizeof(wc);
-	wc.style = CS_OWNDC;
-	wc.lpfnWndProc = DefWindowProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = nullptr;
-	wc.hbrBackground = nullptr;
-	wc.lpszMenuName = nullptr;
-	wc.lpszClassName = pClassName;
-	wc.hIconSm = nullptr;
-	RegisterClassEx(&wc);
+	App* app;
+	bool result;
 
-	//Create window instance
-	HWND hWnd = CreateWindowEx(
-		0, pClassName,
-		"My Window", WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		200, 200, 640, 480,
-		nullptr, nullptr, hInstance, nullptr);
-	ShowWindow(hWnd, SW_SHOW);
-	while (true);
+	//Create new app
+	app = new App;
+	if (!app)
+	{
+		return 0;
+	}
 
-	return 0;
+	//init and run app object.
+	result = app->Init();
+	if (result)
+	{
+		app->Run();
+	}
+
+	
+	//Message Pumpo
+	MSG msg;
+	BOOL getResult;
+	while((getResult = GetMessage(&msg,nullptr,0,0)) > 0)
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	if (getResult == -1)
+	{
+		return -1;
+	}
+	else
+	{
+		return msg.wParam;
+	}
 }
