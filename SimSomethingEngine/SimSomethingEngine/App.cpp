@@ -51,12 +51,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return ApplicationHandle->MessageHandler(hWnd, msg, wParam, lParam);
 	}
 	}
-
-		if (wParam == 'F')
-		{
-			SetWindowText(hWnd, "Respects");
-		}
-
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
@@ -69,19 +63,7 @@ void App::InitWindow(int& screenWidth, int& screenHeight)
 
 	const auto pClassName = "SimSomething";
 	//Register Windows Class
-	WNDCLASSEX wc = { 0 };
-	wc.cbSize = sizeof(wc);
-	wc.style = CS_OWNDC;
-	wc.lpfnWndProc = WndProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
-	wc.hInstance = hInstance;
-	wc.hIcon = nullptr;
-	wc.hbrBackground = nullptr;
-	wc.lpszMenuName = nullptr;
-	wc.lpszClassName = pClassName;
-	wc.hIconSm = nullptr;
-	RegisterClassEx(&wc);
+	
 
 	//Create window instance
 	HWND hWnd = CreateWindowEx(
@@ -136,9 +118,27 @@ bool App::Frame()
 	return true;
 }
 
+void App::ShutDown()
+{
+	//release graphics object.
+
+	//release input object.
+
+	ShutDownWindows();
+}
+
 void App::ShutDownWindows()
 {
+	ShowCursor(true);
+	// Remove the window.
+	DestroyWindow(hWnd);
+	hWnd = NULL;
 
+	//UnregisterClass(applicationName, hInstance);
+	hInstance = nullptr;
+
+	// Release the pointer to this class.
+	ApplicationHandle = nullptr;
 }
 
 LRESULT CALLBACK App::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
@@ -150,16 +150,39 @@ LRESULT CALLBACK App::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM
 	{
 		// If a key is pressed send it to the input object so it can record that state.
 		//m_Input->KeyDown((unsigned int)wparam);
-		return 0;
+		if (wparam == 'F')
+		{
+			SetWindowText(hwnd, "Respects");
+		}
 	}
-
+	break;
 	// Check if a key has been released on the keyboard.
 	case WM_KEYUP:
 	{
 		// If a key is released then send it to the input object so it can unset the state for that key.
 		//m_Input->KeyUp((unsigned int)wparam);
+		if (wparam == 'F')
+		{
+			SetWindowText(hwnd, "My Window");
+		}
 		return 0;
 	}
+	break;
+	case WM_CHAR:
+	{
+		static std::string title;
+		title.push_back((char)wparam);
+		SetWindowText(hwnd, title.c_str());
+	}
+	break;
+	case WM_LBUTTONDOWN:
+	{
+		const POINTS pt = MAKEPOINTS(lparam);
+		std::ostringstream oss;
+		oss << "(" << pt.x << "," << pt.y << ")";
+		SetWindowText(hwnd, oss.str().c_str());
+	}
+	break;
 
 	// Any other messages send to the default message handler as our application won't make use of them.
 	default:

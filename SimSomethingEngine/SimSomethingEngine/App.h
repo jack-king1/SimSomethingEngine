@@ -1,5 +1,8 @@
 #pragma 
-#include <Windows.h>
+#include "KingWin.h"
+#include <string>       // std::string
+#include <iostream>     // std::cout
+#include <sstream>      // std::ostringstream
 
 //This file will be responsible for the main game loop and updating our game.
 //e.g. message handling, Shutdown, Initialzeation. Render, Update etc.
@@ -14,7 +17,7 @@ public:
 	bool Init();
 
 	void Run();
-
+	void ShutDown();
 	LRESULT CALLBACK MessageHandler(HWND, UINT, WPARAM, LPARAM);
 
 private:
