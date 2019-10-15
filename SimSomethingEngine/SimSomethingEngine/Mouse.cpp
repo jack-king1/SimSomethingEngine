@@ -101,6 +101,7 @@ void Mouse::OnRightReleased(int x, int y) noexcept
 {
 	rightIsPressed = false;
 
+
 	buffer.push(Mouse::Event(Mouse::Event::Type::RRelease, *this));
 	TrimBuffer();
 }

@@ -17,9 +17,26 @@ int CALLBACK WinMain(
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-			if (wnd.input.KeyIsPressed(VK_MENU))
+			//if (wnd.input.KeyIsPressed(VK_MENU))
+			//{
+			//	MessageBox(nullptr, "What Do You Want To Do?", "Button Pressed", MB_OK);
+			//}
+			//Do App Logic Test
+			while (!wnd.mouse.IsEmpty())
 			{
-				MessageBox(nullptr, "What Do You Want To Do?", "Button Pressed", MB_OK);
+				const auto e = wnd.mouse.Read();
+				switch (e.GetType())
+				{
+				case Mouse::Event::Type::Leave:
+					wnd.SetTitle("Gone!");
+					break;
+				case Mouse::Event::Type::Move:
+					{
+						std::ostringstream oss;
+						oss << "Mouse PositionL (" << wnd.mouse.GetPosX() << "," << wnd.mouse.GetPosY();
+						wnd.SetTitle(oss.str());
+					}
+				}
 			}
 		}
 
