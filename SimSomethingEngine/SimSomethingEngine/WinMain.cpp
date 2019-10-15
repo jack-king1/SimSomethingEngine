@@ -7,24 +7,40 @@ int CALLBACK WinMain(
 	LPSTR lpCmdLine, 
 	int nCmdShow)
 {
-	Window wnd(800, 300, "My Window 2");
-
-	MSG msg;
-	BOOL getResult;
-	while((getResult = GetMessage(&msg,nullptr,0,0)) > 0)
+	try
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-		if (wnd.input.KeyIsPressed(VK_SPACE))
+		Window wnd(800, 300, "My Window 2");
+
+		MSG msg;
+		BOOL getResult;
+		while ((getResult = GetMessage(&msg, nullptr, 0, 0)) > 0)
 		{
-			MessageBox(nullptr, "Space Pressed","What Do You Want To Do?", MB_OK);
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+			if (wnd.input.KeyIsPressed(VK_MENU))
+			{
+				MessageBox(nullptr, "What Do You Want To Do?", "Button Pressed", MB_OK);
+			}
 		}
-	}
 
-	if (getResult == -1)
+		if (getResult == -1)
+		{
+			return -1;
+		}
+
+		return msg.wParam;
+	}
+	catch (const KingException & e)
 	{
-		return -1;
+		MessageBox(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
 	}
-
-	return msg.wParam;
+	catch (const std::exception & e)
+	{
+		MessageBox(nullptr, e.what(), "Standard Exception", MB_OK | MB_ICONEXCLAMATION);
+	}
+	catch (...)
+	{
+		MessageBox(nullptr, "No details available", "Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
+	}
+	return -1;
 }
