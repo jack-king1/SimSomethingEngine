@@ -7,8 +7,13 @@
 #include "Graphics.h"
 #include <Memory>
 
+// error exception helper macro
+#define KIWND_EXCEPT( hr ) Window::Exception( __LINE__,__FILE__,hr )
+#define KIWND_LAST_EXCEPT() Window::Exception( __LINE__,__FILE__,GetLastError() )
+
 class Window
 {
+public:
 	class Exception : public KingException
 	{
 	public:
@@ -59,6 +64,3 @@ private:
 	std::unique_ptr<Graphics> pGfx;
 };
 
-// error exception helper macro
-#define CHWND_EXCEPT( hr ) Window::Exception( __LINE__,__FILE__,hr )
-#define CHWND_LAST_EXCEPT() Window::Exception( __LINE__,__FILE__,GetLastError() )
