@@ -1,7 +1,4 @@
 #pragma once
-#include <cmath>
-#include <limits>
-#include <iomanip>
 #include "Window.h"
 #include "KingTimer.h"
 
@@ -11,9 +8,11 @@ public:
 	App();
 	// master frame / message loop
 	int Go();
+	~App();
 private:
 	void DoFrame();
 private:
 	Window wnd;
 	KingTimer timer;
+	std::vector<std::unique_ptr<class Box>> boxes;
 };

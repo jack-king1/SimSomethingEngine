@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{8CACE42C-884B-4A56-85E1-D9830D63FA26}</ProjectGuid>
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{6034B957-6D66-4898-A0EE-2033C46B6DDF}</ProjectGuid>
     <RootNamespace>SimSomethingEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SimSomthingEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -80,9 +81,8 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <EnableModules>
-      </EnableModules>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions); IS_DEBUG=true</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -94,9 +94,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions); IS_DEBUG=true</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,17 +115,15 @@
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);NDEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions);IS_DEBUG=false</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <EnableModules>
-      </EnableModules>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,25 +134,38 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>NDEBUG;_MBCS;%(PreprocessorDefinitions);IS_DEBUG=false</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Bindable.cpp" />
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Drawable.cpp" />
     <ClCompile Include="dxerr.cpp" />
     <ClCompile Include="DxgiInfoManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputLayout.cpp" />
+    <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="KingException.cpp" />
     <ClCompile Include="KingTimer.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
+    <ClCompile Include="Topology.cpp" />
+    <ClCompile Include="TransformCbuf.cpp" />
+    <ClCompile Include="VertexBuffer.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowsMessageMap.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -156,28 +173,31 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Bindable.h" />
-    <ClInclude Include="ConstantBuffer.h" />
+    <ClInclude Include="BindableBase.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="ConstantBuffers.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="dxerr.h" />
     <ClInclude Include="DxgiInfoManager.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GraphicsThrowMacros.h" />
     <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputLayout.h" />
+    <ClInclude Include="Keyboard.h" />
     <ClInclude Include="KingException.h" />
     <ClInclude Include="KingTimer.h" />
     <ClInclude Include="KingWin.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="Topology.h" />
+    <ClInclude Include="TransformCbuf.h" />
+    <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsMessageMap.h" />
-    <ClInclude Include="WindowsThrowMacros.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SimSomethingEngine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="C:\Users\jackk\Downloads\Ypf-Transformers-Internet-Explorer.ico" />
+    <ClInclude Include="WindowThrowMacros.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DXGetErrorDescription.inl" />
@@ -186,17 +206,39 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SimSomthingEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Ypf-Transformers-Internet-Explorer.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

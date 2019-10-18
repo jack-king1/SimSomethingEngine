@@ -1,10 +1,3 @@
-#pragma once
-
-
-#define _WIN32_WINNT 0X0601
-//#define <SDKDDKVer.h>
-
-//UNSUED WINDOWS STUFF.
 #define WIN32_LEAN_AND_MEAN
 #define NOGDICAPMASKS
 #define NOSYSMETRICS
@@ -18,7 +11,7 @@
 #define NOCOLOR
 #define NOCTLMGR
 #define NODRAWTEXT
-#define NOKERNAL
+#define NOKERNEL
 #define NONLS
 #define NOMEMMGR
 #define NOMETAFILE
@@ -27,7 +20,7 @@
 #define NOSCROLL
 #define NOSERVICE
 #define NOSOUND
-#define NOEXTMETRIC
+#define NOTEXTMETRIC
 #define NOWH
 #define NOCOMM
 #define NOKANJI

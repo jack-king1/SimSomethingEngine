@@ -1,9 +1,10 @@
+
 #pragma once
 #include <queue>
 #include <bitset>
 #include <optional>
 
-class Input
+class Keyboard
 {
 	friend class Window;
 public:
@@ -19,10 +20,10 @@ public:
 		Type type;
 		unsigned char code;
 	public:
-		Event(Type type, unsigned char code) noexcept
+		Event( Type type,unsigned char code ) noexcept
 			:
-			type(type),
-			code(code)
+			type( type ),
+			code( code )
 		{}
 		bool IsPress() const noexcept
 		{
@@ -38,11 +39,11 @@ public:
 		}
 	};
 public:
-	Input() = default;
-	Input(const Input&) = delete;
-	Input& operator=(const Input&) = delete;
+	Keyboard() = default;
+	Keyboard( const Keyboard& ) = delete;
+	Keyboard& operator=( const Keyboard& ) = delete;
 	// key event stuff
-	bool KeyIsPressed(unsigned char keycode) const noexcept;
+	bool KeyIsPressed( unsigned char keycode ) const noexcept;
 	std::optional<Event> ReadKey() noexcept;
 	bool KeyIsEmpty() const noexcept;
 	void FlushKey() noexcept;
@@ -56,12 +57,12 @@ public:
 	void DisableAutorepeat() noexcept;
 	bool AutorepeatIsEnabled() const noexcept;
 private:
-	void OnKeyPressed(unsigned char keycode) noexcept;
-	void OnKeyReleased(unsigned char keycode) noexcept;
-	void OnChar(char character) noexcept;
+	void OnKeyPressed( unsigned char keycode ) noexcept;
+	void OnKeyReleased( unsigned char keycode ) noexcept;
+	void OnChar( char character ) noexcept;
 	void ClearState() noexcept;
 	template<typename T>
-	static void TrimBuffer(std::queue<T>& buffer) noexcept;
+	static void TrimBuffer( std::queue<T>& buffer ) noexcept;
 private:
 	static constexpr unsigned int nKeys = 256u;
 	static constexpr unsigned int bufferSize = 16u;
