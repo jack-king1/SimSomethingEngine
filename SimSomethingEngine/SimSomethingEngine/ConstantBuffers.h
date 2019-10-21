@@ -6,19 +6,24 @@ template<typename C>
 class ConstantBuffer : public Bindable
 {
 public:
+	//Updated every frame.
 	void Update( Graphics& gfx,const C& consts )
 	{
 		INFOMAN( gfx );
-
+		//To update the constant buffer we call the map function which will lock it.
+		//This gets a pointer to the memory and allows us to write to it.
 		D3D11_MAPPED_SUBRESOURCE msr;
 		GFX_THROW_INFO( GetContext( gfx )->Map(
 			pConstantBuffer.Get(),0u,
 			D3D11_MAP_WRITE_DISCARD,0u,
 			&msr
 		) );
+		//Memcpy copys memory into the buffer.
 		memcpy( msr.pData,&consts,sizeof( consts ) );
+		//We then unlock it using unMap.
 		GetContext( gfx )->Unmap( pConstantBuffer.Get(),0u );
 	}
+	//Init with const buffer data.
 	ConstantBuffer( Graphics& gfx,const C& consts )
 	{
 		INFOMAN( gfx );
@@ -35,6 +40,7 @@ public:
 		csd.pSysMem = &consts;
 		GFX_THROW_INFO( GetDevice( gfx )->CreateBuffer( &cbd,&csd,&pConstantBuffer ) );
 	}
+	//This function creates buffer without initializing.
 	ConstantBuffer( Graphics& gfx )
 	{
 		INFOMAN( gfx );

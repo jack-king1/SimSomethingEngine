@@ -5,13 +5,15 @@
 #include "KingMath.h"
 #include "Surface.h"
 #include "GDIPlusManager.h"
+#include "SkinnedBox.h"
+#include "Sheet.h"
 
 
 GDIPlusManager gdipm;
 
 App::App()
 	:
-	wnd(800, 600, "The Donkey Fart Box")
+	wnd(800, 600, "Kings Window")
 {
 	class Factory
 	{
@@ -22,10 +24,34 @@ App::App()
 		{}
 		std::unique_ptr<Drawable> operator()()
 		{
-			return std::make_unique<Box>(
-					gfx, rng, adist, ddist,
-					odist, rdist, bdist
-					);
+			//return std::make_unique<Sheet>(
+			//	gfx, rng, adist, ddist,
+			//	odist, rdist
+			//	);
+
+			//return std::make_unique<Box>(
+			//	gfx, rng, adist, ddist,
+			//	odist, rdist, bdist
+			//	);
+			
+			return std::make_unique<SkinnedBox>(
+			gfx, rng, adist, ddist,
+			odist, rdist
+			);
+
+			//switch (typedist(rng))
+			//{
+			////case 0:
+			////	return std::make_unique<SkinnedBox>(
+			////		gfx, rng, adist, ddist,
+			////		odist, rdist
+			////		);
+			//case 1:
+
+			//default:
+			//	assert(false && "bad drawable type in factory");
+			//	return {};
+			//}
 		}
 	private:
 		Graphics& gfx;
@@ -43,8 +69,6 @@ App::App()
 	Factory f(wnd.Gfx());
 	drawables.reserve(nDrawables);
 	std::generate_n(std::back_inserter(drawables), nDrawables, f);
-
-	const auto s = Surface::FromFile("Images\\shroud.png");
 
 	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 }
