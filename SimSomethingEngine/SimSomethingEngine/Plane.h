@@ -15,8 +15,8 @@ public:
 		assert(divisions_x >= 1);
 		assert(divisions_y >= 1);
 
-		constexpr float width = 2.0f;
-		constexpr float height = 2.0f;
+		constexpr float width = 50.0f;
+		constexpr float height = 50.0f;
 		const int nVertices_x = divisions_x + 1;
 		const int nVertices_y = divisions_y + 1;
 		std::vector<V> vertices(nVertices_x * nVertices_y);

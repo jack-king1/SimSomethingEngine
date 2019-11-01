@@ -1,20 +1,24 @@
 #pragma once
+
+#pragma once
 #include "DrawableBase.h"
 
-class Box : public DrawableBase<Box>
+class City : public DrawableBase<City>
 {
 public:
-	Box(Graphics& gfx, std::mt19937& rng,
+	City(Graphics& gfx, std::mt19937& rng,
 		std::uniform_real_distribution<float>& adist,
 		std::uniform_real_distribution<float>& ddist,
 		std::uniform_real_distribution<float>& odist,
-		std::uniform_real_distribution<float>& rdist,
-		std::uniform_real_distribution<float>& bdist);
+		std::uniform_real_distribution<float>& rdist);
+	City(Graphics& gfx);
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 private:
 	// positional
 	float r;
+	float x;
+	float y;
 	float roll = 0.0f;
 	float pitch = 0.0f;
 	float yaw = 0.0f;
@@ -28,9 +32,15 @@ private:
 	float dtheta;
 	float dphi;
 	float dchi;
+
 	// model transform
 	DirectX::XMFLOAT3X3 mt;
-	float xScale;
-	float yScale;
-	float zScale;
+	float xScale = 5;
+	float yScale = 10;
+	float zScale = 5;
+
+	//Position
+	float xPos;
+	float yPos;
+	float zPos;
 };

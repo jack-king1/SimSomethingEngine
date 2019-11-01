@@ -1,6 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "KingTimer.h"
+#include "Camera.h"
 
 class App
 {
@@ -12,8 +13,10 @@ public:
 private:
 	void DoFrame();
 private:
+
 	Window wnd;
 	KingTimer timer;
 	std::vector<std::unique_ptr<class Drawable>> drawables;
-	static constexpr size_t nDrawables = 1000;
+	Camera cam;
+	static constexpr size_t nDrawables = 2;
 };

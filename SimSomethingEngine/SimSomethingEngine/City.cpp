@@ -1,4 +1,4 @@
-#include "SkinnedBox.h"
+#include "City.h"
 #include "BindableBase.h"
 #include "GraphicsThrowMacros.h"
 #include "Cube.h"
@@ -6,7 +6,7 @@
 #include "Texture.h"
 
 
-SkinnedBox::SkinnedBox(Graphics& gfx,
+City::City(Graphics& gfx,
 	std::mt19937& rng,
 	std::uniform_real_distribution<float>& adist,
 	std::uniform_real_distribution<float>& ddist,
@@ -68,7 +68,7 @@ SkinnedBox::SkinnedBox(Graphics& gfx,
 	AddBind(std::make_unique<TransformCbuf>(gfx, *this));
 }
 
-SkinnedBox::SkinnedBox(Graphics& gfx)
+City::City(Graphics& gfx)
 {
 	namespace dx = DirectX;
 
@@ -87,7 +87,7 @@ SkinnedBox::SkinnedBox(Graphics& gfx)
 
 		AddStaticBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
 
-		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\shroudcube.png")));
+		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\shroud.png")));
 
 		auto pvs = std::make_unique<VertexShader>(gfx, L"TextureVS.cso");
 		auto pvsbc = pvs->GetBytecode();
@@ -120,7 +120,7 @@ SkinnedBox::SkinnedBox(Graphics& gfx)
 	);
 }
 
-void SkinnedBox::Update(float dt) noexcept
+void City::Update(float dt) noexcept
 {
 	roll += droll * dt;
 	pitch += dpitch * dt;
@@ -130,11 +130,11 @@ void SkinnedBox::Update(float dt) noexcept
 	chi += dchi * dt;
 }
 
-DirectX::XMMATRIX SkinnedBox::GetTransformXM() const noexcept
+DirectX::XMMATRIX City::GetTransformXM() const noexcept
 {
 	namespace dx = DirectX;
 	return dx::XMLoadFloat3x3(&mt) *
 		dx::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
-		dx::XMMatrixTranslation(r, 0.0f, 0.0f) *
+		dx::XMMatrixTranslation(xPos, (yScale / 2.0f), zPos) *
 		dx::XMMatrixRotationRollPitchYaw(theta, phi, chi);
 }

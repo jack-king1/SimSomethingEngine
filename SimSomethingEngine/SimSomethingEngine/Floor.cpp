@@ -1,4 +1,4 @@
-#include "Sheet.h"
+#include "Floor.h"
 #include "BindableBase.h"
 #include "GraphicsThrowMacros.h"
 #include "Plane.h"
@@ -6,26 +6,11 @@
 #include "Texture.h"
 #include "Sampler.h"
 
+namespace dx = DirectX;
 
-Sheet::Sheet(Graphics& gfx,
-	std::mt19937& rng,
-	std::uniform_real_distribution<float>& adist,
-	std::uniform_real_distribution<float>& ddist,
-	std::uniform_real_distribution<float>& odist,
-	std::uniform_real_distribution<float>& rdist)
-	:
-	r(rdist(rng)),
-	droll(ddist(rng)),
-	dpitch(ddist(rng)),
-	dyaw(ddist(rng)),
-	dphi(odist(rng)),
-	dtheta(odist(rng)),
-	dchi(odist(rng)),
-	chi(adist(rng)),
-	theta(adist(rng)),
-	phi(adist(rng))
+
+Floor::Floor(Graphics& gfx)
 {
-	namespace dx = DirectX;
 
 	if (!IsStaticInitialized())
 	{
@@ -44,7 +29,7 @@ Sheet::Sheet(Graphics& gfx,
 		model.vertices[2].tex = { 0.0f,1.0f };
 		model.vertices[3].tex = { 1.0f,1.0f };
 
-		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\shroud.png")));
+		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\floor.png")));
 
 		AddStaticBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
 
@@ -75,21 +60,27 @@ Sheet::Sheet(Graphics& gfx,
 	AddBind(std::make_unique<TransformCbuf>(gfx, *this));
 }
 
-void Sheet::Update(float dt) noexcept
+void Floor::Update(float dt) noexcept
 {
-	roll += droll * dt;
-	pitch += dpitch * dt;
-	yaw += dyaw * dt;
-	theta += dtheta * dt;
-	phi += dphi * dt;
-	chi += dchi * dt;
+
+
+	roll = dx::XMConvertToRadians(90.0f);
+	pitch = dx::XMConvertToRadians(90.0f);
+	yaw = 1;
+
+	theta = 0;
+	phi = 0;
+	chi = 0;
 }
 
-DirectX::XMMATRIX Sheet::GetTransformXM() const noexcept
+DirectX::XMMATRIX Floor::GetTransformXM() const noexcept
 {
-	namespace dx = DirectX;
 	return dx::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
 		dx::XMMatrixTranslation(r, 0.0f, 0.0f) *
 		dx::XMMatrixRotationRollPitchYaw(theta, phi, chi);
-
+	namespace dx = DirectX;
+	//return dx::XMLoadFloat3x3(&mt) *
+	//	dx::XMMatrixRotationRollPitchYaw(pitch, yaw, roll) *
+	//	dx::XMMatrixTranslation(r, 0.0f, 0.0f) *
+	//	dx::XMMatrixRotationRollPitchYaw(theta, phi, chi);
 }

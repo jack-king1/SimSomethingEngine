@@ -7,6 +7,12 @@
 #include "GDIPlusManager.h"
 #include "SkinnedBox.h"
 #include "Sheet.h"
+#include "Floor.h"
+#include "City.h"
+#include "Food.h"
+#include "Wood.h"
+#include "Stone.h"
+#include "Gold.h"
 
 
 GDIPlusManager gdipm;
@@ -33,11 +39,22 @@ App::App()
 			//	gfx, rng, adist, ddist,
 			//	odist, rdist, bdist
 			//	);
+
+				//return std::make_unique<Floor>(gfx);
+				//count++;
+
+				//return std::make_unique<SkinnedBox>(
+				//	gfx, rng, adist, ddist,
+				//	odist, rdist
+				//	);
+
+
+
 			
-			return std::make_unique<SkinnedBox>(
-			gfx, rng, adist, ddist,
-			odist, rdist
-			);
+			//return std::make_unique<Sheet>(
+			//	gfx, rng, adist, ddist,
+			//	odist, rdist
+			//	);
 
 			//switch (typedist(rng))
 			//{
@@ -68,20 +85,59 @@ App::App()
 
 	Factory f(wnd.Gfx());
 	drawables.reserve(nDrawables);
-	std::generate_n(std::back_inserter(drawables), nDrawables, f);
+	//std::generate_n(std::back_inserter(drawables), nDrawables, f);
 
-	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
+	drawables.push_back(std::make_unique<City>(wnd.Gfx()));
+	drawables.push_back(std::make_unique<Stone>(wnd.Gfx()));
+	drawables.push_back(std::make_unique<Food>(wnd.Gfx()));
+	drawables.push_back(std::make_unique<Wood>(wnd.Gfx()));
+	drawables.push_back(std::make_unique<Gold>(wnd.Gfx()));
+	drawables.push_back(std::make_unique<Floor>(wnd.Gfx()));
+
+	//drawables[0].
+
+	wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 200.0f));
 }
 
 void App::DoFrame()
 {
 	const auto dt = timer.Mark();
 	wnd.Gfx().ClearBuffer(0.07f, 0.0f, 0.12f);
+	wnd.Gfx().SetCamera(cam.GetMatrix());
+
 	for (auto& d : drawables)
 	{
 		d->Update(dt);
 		d->Draw(wnd.Gfx());
 	}
+	//TODO:Update Camera.
+	if (wnd.kbd.KeyIsPressed(0x57)) //w
+	{
+		cam.Zoom(dt, Camera::ZOOMIN);
+	}
+	else if (wnd.kbd.KeyIsPressed(0x53))//s
+	{
+		cam.Zoom(dt, Camera::ZOOMOUT);
+	}
+
+	if (wnd.kbd.KeyIsPressed(0x41))//a
+	{
+		cam.Rotate(dt, Camera::LEFT);
+	}
+	else if (wnd.kbd.KeyIsPressed(0x44))//d
+	{
+		cam.Rotate(dt, Camera::RIGHT);
+	}
+
+	if (wnd.kbd.KeyIsPressed(0x51))
+	{
+		cam.UpDown(dt, Camera::DOWN);
+	}
+	else if (wnd.kbd.KeyIsPressed(0x45))
+	{
+		cam.UpDown(dt, Camera::UP);
+	}
+
 	wnd.Gfx().EndFrame();
 }
 
