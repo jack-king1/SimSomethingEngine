@@ -41,7 +41,7 @@ City::City(Graphics& gfx,
 
 		AddStaticBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
 
-		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\shroudcube.png")));
+		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\Scales.png")));
 
 		auto pvs = std::make_unique<VertexShader>(gfx, L"TextureVS.cso");
 		auto pvsbc = pvs->GetBytecode();
@@ -87,7 +87,7 @@ City::City(Graphics& gfx)
 
 		AddStaticBind(std::make_unique<VertexBuffer>(gfx, model.vertices));
 
-		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\shroud.png")));
+		AddStaticBind(std::make_unique<Texture>(gfx, Surface::FromFile("Images\\Scales.png")));
 
 		auto pvs = std::make_unique<VertexShader>(gfx, L"TextureVS.cso");
 		auto pvsbc = pvs->GetBytecode();
